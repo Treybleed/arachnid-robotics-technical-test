@@ -28,8 +28,6 @@ export class RobotArachnidMk2 implements IRobot {
     execute(command = this.route): ICoordinates {
         for (let direction of command) {
             this.move(direction);
-
-            console.log('s');
         }
 
         return this.getCoordinates();
