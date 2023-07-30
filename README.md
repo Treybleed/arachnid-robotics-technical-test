@@ -11,9 +11,9 @@ npm run start
 ```
 
 # Tests
-The project has 3 ways of running test, 
+The project has 3 commands for running tests, 
 
-This will run all tests in the project
+This will run all tests within the project
 ```
 npm run tests 
 ```
