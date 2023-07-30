@@ -3,6 +3,8 @@ import { RobotArachnid } from '../../classes/robots/robot-arachnid';
 
 // Mk1 Robot Unit Tests
 
+// Apply force function tests
+
 describe('Mk1 Robot Apply force function', () => {
     test(`Output should be 5 (0 + 5)`, () => {
         const robot = new RobotArachnid(0, 0);
@@ -16,6 +18,8 @@ describe('Mk1 Robot Apply force function', () => {
         expect(robot.applyForce(2, -4)).toBe(-2);
     });
 });
+
+// Move function tests
 
 describe('Mk1 Robot Move function', () => {
     test(`Output should be that both the robots x and y values increase and decrease with valid directions`, () => {
