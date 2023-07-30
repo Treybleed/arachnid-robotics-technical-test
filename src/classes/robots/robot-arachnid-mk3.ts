@@ -4,17 +4,20 @@ import { MovementOrientation } from "../../enums/movement-orientation";
 import { ICoordinates } from "../../interfaces/ICoordinates";
 import { IRobot } from "../../interfaces/IRobot";
 
-export class RobotArachnidMk2 implements IRobot {
+export class RobotArachnidMk3 implements IRobot {
     private currentPosition: ICoordinates;
     private route: string;
     private speed: number;
     private orientation: MovementOrientation;
+    private fuel: number;
+    private maxBoost: number = 5;
 
-    constructor(x: number = 0, y: number = 0, command: string = "", startingDirection: string = 'UP', speed: number = 1) {
+    constructor(x: number = 0, y: number = 0, command: string = "", startingDirection: string = 'UP', speed: number = 1, fuel: number = 30) {
         this.currentPosition = { x, y }
         this.route = command;
         this.orientation = MovementOrientation[startingDirection];
         this.speed = speed;
+        this.fuel = fuel;
     }
 
     getCoordinates() {
@@ -25,19 +28,41 @@ export class RobotArachnidMk2 implements IRobot {
         return this.orientation;
     }
 
+    getFuel() {
+        return this.fuel;
+    }
+
     execute(command = this.route): ICoordinates {
+        let index = 0;
+
         for (let direction of command) {
-            this.move(direction);
+            this.move(direction, this.getBoost(this.route, index));
+            index++;
         }
 
         return this.getCoordinates();
     }
 
-    move(direction: string) {
+    getBoost(route: string, currentIndex: number) {
+        if(currentIndex < 1) {
+            return 0;
+        }
+
+        const previousCommand = route.charAt(currentIndex - 1);
+
+        if(!isNaN(Number(previousCommand))) {
+            return Number(previousCommand);
+        }
+
+        return 0;
+    }
+
+    move(direction: string, boostAmount: number) {
+
         switch(direction as Direction) {
             // Moves the robot forward in the direction it is currently facing (UP, DOWN, LEFT, RIGHT)
             case Direction.F:
-                this.applyForce(this.orientation, this.speed);
+                this.applyForce(this.orientation, this.boostedSpeed(boostAmount));
                 break;
 
             // Rotate the robot + 90 degrees
@@ -56,6 +81,22 @@ export class RobotArachnidMk2 implements IRobot {
                 this.rotate(MovementDirection.LEFT);
                 break;
         }
+    }
+
+    boostedSpeed(boostAmount) {
+        if(boostAmount > 0 && this.fuel > 0) {
+            // Clamp boost amount at our max boost, any heigher we overheated
+            boostAmount = Math.min(Math.max(boostAmount, 1), this.maxBoost);
+
+            if(boostAmount > this.fuel) {
+                boostAmount = this.fuel;
+            }
+
+            this.fuel -= boostAmount;
+            return boostAmount;
+        }
+
+        return this.speed;
     }
 
     rotate(rotateDirection: MovementDirection) {
@@ -79,28 +120,23 @@ export class RobotArachnidMk2 implements IRobot {
     applyForce(movementOrientation: MovementOrientation, force: number) {
         switch(movementOrientation) {
             case MovementOrientation.UP: {
-                this.currentPosition.y = this.caluclateSafeNewCoordinate(this.currentPosition.y, force);
+                this.currentPosition.y += force;
                 break;
             }
             case MovementOrientation.RIGHT: {
-                this.currentPosition.x = this.caluclateSafeNewCoordinate(this.currentPosition.x, force);
+                this.currentPosition.x += force;
                 break;
             }
             case MovementOrientation.DOWN: {
-                this.currentPosition.y = this.caluclateSafeNewCoordinate(this.currentPosition.y, -force);
+                this.currentPosition.y -= force
                 break;
             }
             case MovementOrientation.LEFT: {
-                this.currentPosition.x = this.caluclateSafeNewCoordinate(this.currentPosition.x, -force);
+                this.currentPosition.x -= force;
                 break;
             }
         }
 
         return;
-    }
-
-    // Only apply force if it is safe to do so
-    caluclateSafeNewCoordinate(currentPositionValue: number, force: number) {
-        return ((currentPositionValue + force) >= 0) ? currentPositionValue + force : currentPositionValue;
     }
 }
