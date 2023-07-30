@@ -5,14 +5,14 @@ import { RobotArachnid } from '../../classes/robots/robot-arachnid';
 
 describe('Mk1 Robot Apply force function', () => {
     test(`Output should be 5 (0 + 5)`, () => {
-        const robot = new RobotArachnid();
+        const robot = new RobotArachnid(0, 0);
         expect(robot.applyForce(0, 5)).toBe(5);
     });
 });
 
 describe('Mk1 Robot Apply force function', () => {
     test(`Output should be -2 (2 - 4)`, () => {
-        const robot = new RobotArachnid();
+        const robot = new RobotArachnid(0, 0);
         expect(robot.applyForce(2, -4)).toBe(-2);
     });
 });
