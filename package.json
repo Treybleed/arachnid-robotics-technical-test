@@ -1,0 +1,26 @@
+{
+  "name": "arachnid-robotics",
+  "main": "/index.js",
+  "types": "dist/index.d.ts",
+  "version": "1.0.0",
+  "description": "Arachnid Robotics Technical Test - Part 1",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "tests": "jest",
+    "unit": "jest unit",
+    "integration": "jest int"
+  },
+  "author": "Matthew Hobbs",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jest": "^29.5.3",
+    "jest": "^29.6.2"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.6.2",
+    "@types/node": "18.16.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6"
+  }
+}
