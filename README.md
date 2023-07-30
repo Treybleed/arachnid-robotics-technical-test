@@ -28,7 +28,7 @@ This will run only the integration tests:
 npm run integration
 ```
 
-# Assumptions
+# Mk1 Assumptions
 
 1. Becuase it has not been specified I have assumed the testing area within the test chamber allows negative values and is in fact bigger than 0,0.
 2. I have assumed the robot will instantly move in the direction specified in the command, the robot does not need to turn to face left before moving left.
