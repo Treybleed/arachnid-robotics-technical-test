@@ -7,7 +7,7 @@ export class RobotArachnid implements IRobot {
     private route: string;
     private speed: number;
 
-    constructor(x: number = 0, y: number = 0, command: string = "", speed = 1) {
+    constructor(x: number = 0, y: number = 0, command: string = "", speed: number = 1) {
         this.currentPosition = { x, y }
         this.route = command;
         this.speed = speed;

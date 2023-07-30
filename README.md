@@ -39,3 +39,8 @@ npm run integration
        L = -1,0
        R = +1,0
 ```
+
+# Mk3 Assumptions
+
+1. I have assumed when the robot overheats it has no cooldown time and can boost once more if the next command requires it.
+2. I have assumed when boosting if you don't have enough fuel but do have some fuel available, you will simply use whats available rather than not boost at all.
